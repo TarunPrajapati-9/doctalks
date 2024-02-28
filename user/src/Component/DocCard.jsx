@@ -1,4 +1,10 @@
+import {useNavigate} from 'react-router-dom';
+
 const DocCard = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/Booking');
+  };
   return (
     <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3">
       <div className="flex items-center gap-4 ml-4 mt-4 mr-4 mb-1">
@@ -49,7 +55,11 @@ const DocCard = () => {
           <p className="block text-sm mb-1">Exp: 5 yr</p>
           <p className="block text-sm">Fees: 45₹</p>
         </div>
-        <button className="btn btn-sm btn-outline btn-accent place-self-center">
+        <button
+          type="submit"
+          className="btn btn-sm btn-outline btn-accent place-self-center"
+          onClick={handleClick}
+        >
           Book
         </button>
       </div>

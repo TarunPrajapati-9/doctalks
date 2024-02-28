@@ -7,6 +7,7 @@ import {
 import HomePage from "./app/HomePage";
 import LoginPage from "./app/LoginPage";
 import NavBar from "./Component/NavBar";
+import Booking from "./app/Booking";
 
 import "./index.css";
 
@@ -29,6 +30,8 @@ function AppContent() {
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/signin" element={<LoginPage />} />
+          <Route exact path="/Booking" element={<Booking />} />
+
         </Routes>
       ) : (
         <Routes>
