@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 // import { useMutation } from "@tanstack/react-query";
 // import { toast } from "react-hot-toast";
 
 // import { signIn } from "../utils/dataPoster";
 
 const LoginPage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const { mutate, isPending } = useMutation({
-    // mutationFn: signIn,
+  // mutationFn: signIn,
   //   onSuccess: (res) => {
   //     if (res.detail.status) {
   //       toast.success("Login Successful");
@@ -28,10 +29,11 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
+    toast.success("Login Successful");
     console.log(data);
     // mutate({
-    //   o_email: data.email,
-    //   o_password: data.password,
+    //   u_email: data.u_email,
+    //   u_password: data.u_password,
     // });
   };
   return (
@@ -61,10 +63,10 @@ const LoginPage = () => {
               </div>
               <input
                 type="text"
-                name="email"
+                name="u_email"
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
-                {...register("email", {
+                {...register("u_email", {
                   required: "Email is Required",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -73,9 +75,9 @@ const LoginPage = () => {
                 })}
                 // disabled={isPending}
               />
-              {errors.email && (
+              {errors.u_email && (
                 <div className="text-red-500 mx-2 my-1">
-                  {errors.email.message}
+                  {errors.u_email.message}
                 </div>
               )}
             </label>
@@ -85,10 +87,10 @@ const LoginPage = () => {
               </div>
               <input
                 type="password"
-                name="password"
+                name="u_password"
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
-                {...register("password", {
+                {...register("u_password", {
                   required: "Password is Required",
                   minLength: {
                     value: 4,
@@ -97,9 +99,9 @@ const LoginPage = () => {
                 })}
                 // disabled={isPending}
               />
-              {errors.password && (
+              {errors.u_password && (
                 <div className="text-red-500 mx-2 my-1">
-                  {errors.password.message}
+                  {errors.u_password.message}
                 </div>
               )}
             </label>
@@ -110,6 +112,15 @@ const LoginPage = () => {
             >
               {/* {isPending && <span className="loading loading-spinner" />} */}
               Login
+            </button>
+            <button
+              type="button"
+              className="btn btn-link"
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+              Don&apos;t have an account?
             </button>
           </div>
         </div>
