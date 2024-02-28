@@ -1,9 +1,9 @@
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const DocCard = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/Booking');
+    navigate("/booking");
   };
   return (
     <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3">
