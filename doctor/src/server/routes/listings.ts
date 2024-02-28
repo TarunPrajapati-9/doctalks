@@ -16,7 +16,6 @@ const listingRouter = router({
         const { average_duration, description, price, title, time } = input;
         const endTime = new Date(time);
         endTime.setMinutes(endTime.getMinutes() + Number(average_duration));
-        // check that is there any listing already exist in particular duration
         const listing = await db.listing.findMany({
           where: {
             doctor: {
