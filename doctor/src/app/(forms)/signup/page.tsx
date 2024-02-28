@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Specialization } from "@prisma/client";
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
 import { trpc } from "@/utils/trpc";
 import { DOCTOR_SPECIALIZATION } from "@/utils/constants";
 import convertB64 from "@/utils/func/convertB64";
+import { postCertificate } from "@/utils/func/dataPoster";
 
 type FormSchema = {
   username: string;
@@ -39,27 +41,42 @@ const LoginPage = () => {
     },
   });
   const { mutate, isPending } = trpc.signUp.useMutation();
-  async function onSubmit(data: FormSchema) {
-    mutate(
-      {
-        ...data,
-        certification: await convertB64(data.certificate),
+  const mutateFl = useMutation({
+    mutationFn: postCertificate,
+  });
+  function onSubmit(formData: FormSchema) {
+    mutateFl.mutate(formData.certificate, {
+      async onSuccess(data) {
+        if (data.success) {
+          toast.success("Certificate is valid! Creating an account");
+          mutate(
+            {
+              ...formData,
+              certification: await convertB64(formData.certificate),
+            },
+            {
+              onSuccess: (data) => {
+                if (data.success) {
+                  toast.success(`${data.message} with valid`);
+                  router.push("/");
+                } else {
+                  toast.error(data.message);
+                }
+              },
+              onError: (error) => {
+                toast.error(error.message);
+              },
+            }
+          );
+          reset();
+        } else {
+          toast.error("Certificate is invalid! Try uploading again");
+        }
       },
-      {
-        onSuccess: (data) => {
-          if (data.success) {
-            toast.success(data.message);
-            router.push("/");
-          } else {
-            toast.error(data.message);
-          }
-        },
-        onError: (error) => {
-          toast.error(error.message);
-        },
-      }
-    );
-    reset();
+      onError(error) {
+        toast.error(error.message);
+      },
+    });
   }
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col md:flex-row bg-[#ebfbec]">
@@ -69,8 +86,6 @@ const LoginPage = () => {
           className="w-[95%] md:w-[70%] flex flex-col items-center justify-center gap-y-6 rounded-sm shadow-lg p-10 bg-[#f7fbf7]"
           autoComplete="off"
           onSubmit={handleSubmit(onSubmit)}
-          // support file multipart
-          encType="multipart/form-data"
         >
           <Image
             src="/logo.png"
@@ -100,7 +115,7 @@ const LoginPage = () => {
                 "input input-bordered w-full",
                 errors.username && "input-error"
               )}
-              disabled={isPending}
+              disabled={isPending || mutateFl.isPending}
               {...register("username", {
                 required: true,
                 pattern: /^[a-zA-Z0-9_]+$/,
@@ -124,7 +139,7 @@ const LoginPage = () => {
                 "input input-bordered w-full",
                 errors.email && "input-error"
               )}
-              disabled={isPending}
+              disabled={isPending || mutateFl.isPending}
               {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
             />
           </label>
@@ -150,7 +165,7 @@ const LoginPage = () => {
                 "input input-bordered w-full",
                 errors.password && "input-error"
               )}
-              disabled={isPending}
+              disabled={isPending || mutateFl.isPending}
             />
           </label>
           {/* specialization */}
@@ -200,23 +215,26 @@ const LoginPage = () => {
             </div>
             <input
               type="file"
-              onChange={async (e) => {
+              onChange={(e) => {
                 setValue("certificate", e?.target?.files?.item(0) as File);
               }}
               className={twMerge(
                 "file-input w-full",
                 errors.certificate && "file-input-error"
               )}
-              accept="image/*"
+              disabled={isPending || mutateFl.isPending}
+              accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/heif"
               placeholder="Upload your certificate"
             />
           </label>
           <button
-            disabled={isPending}
+            disabled={isPending || mutateFl.isPending}
             type="submit"
             className="btn btn-primary w-full"
           >
-            {isPending && <span className="loading loading-spinner" />}
+            {(isPending || mutateFl.isPending) && (
+              <span className="loading loading-spinner" />
+            )}
             Create new account!
           </button>
           {/* sign up link */}
