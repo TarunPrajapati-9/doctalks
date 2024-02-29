@@ -26,6 +26,7 @@ model User {
   u_name     String @unique
   u_email    String @unique
   u_password String
+  u_balance  Float  @default(0)
 
   Session Session[]
 }

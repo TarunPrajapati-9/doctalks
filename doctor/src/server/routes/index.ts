@@ -9,6 +9,7 @@ import { publicProcedure, router } from "../trpc";
 
 // routers
 import listingRouter from "./listings";
+import doctorRouter from "./doc";
 
 export const appRouter = router({
   login: publicProcedure
@@ -108,6 +109,7 @@ export const appRouter = router({
       }
     }),
   listings: listingRouter,
+  doctor: doctorRouter,
 });
 
 // export type definition of API
