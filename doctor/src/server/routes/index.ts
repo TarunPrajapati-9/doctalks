@@ -7,6 +7,9 @@ import db from "@/utils/db";
 
 import { publicProcedure, router } from "../trpc";
 
+// routers
+import listingRouter from "./listings";
+
 export const appRouter = router({
   login: publicProcedure
     .input(LOGIN_SCHEMA)
@@ -104,6 +107,7 @@ export const appRouter = router({
         };
       }
     }),
+  listings: listingRouter,
 });
 
 // export type definition of API

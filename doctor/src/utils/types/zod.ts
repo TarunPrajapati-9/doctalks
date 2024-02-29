@@ -19,3 +19,11 @@ export const SIGN_UP_SCHEMA_DOCTOR = z.object({
   specialization: z.nativeEnum(Specialization),
   certification: z.string(),
 });
+
+export const LISTING_CREATE = z.object({
+  title: z.string(),
+  description: z.string(),
+  price: z.string(),
+  average_duration: z.string(),
+  time: z.string(),
+});

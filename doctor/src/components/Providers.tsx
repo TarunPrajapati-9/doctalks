@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { trpc } from "@/utils/trpc";
 
 import "react-toastify/dist/ReactToastify.css";
+import CreateListing from "./modals/CreateListing";
 
 type Props = {
   children: React.ReactNode;
@@ -37,6 +38,10 @@ const Providers = ({ children }: Props) => {
           pauseOnHover
         />
         {children}
+        {/* modals */}
+        <>
+          <CreateListing />
+        </>
       </QueryClientProvider>
     </trpc.Provider>
   );

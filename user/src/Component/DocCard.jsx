@@ -1,17 +1,17 @@
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const DocCard = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/Booking');
+    navigate("/booking");
   };
   return (
-    <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3">
+    <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3 select-none">
       <div className="flex items-center gap-4 ml-4 mt-4 mr-4 mb-1">
         <img
           src="/images/github.png"
           alt="profile"
-          className="h-12 w-12 rounded-full "
+          className="h-12 w-12 rounded-full pointer-events-none"
         />
         <div className="flex w-full flex-col gap-0.5">
           <div className="flex items-center justify-between">
@@ -27,7 +27,7 @@ const DocCard = () => {
                   type="radio"
                   name="rating-1"
                   className="mask mask-star"
-                  checked
+                  defaultChecked
                 />
                 <input
                   type="radio"

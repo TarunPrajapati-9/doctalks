@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const NavBar = () => {
+  let navigate = useNavigate();
+
+  const handleLogOut = () => {
+    Cookies.remove("token");
+    navigate("/signin");
+  };
   return (
-    <div className="navbar">
+    <div className="navbar bg-[#B7EFC5] bg-opacity-35">
       <Link to="/" className="flex-1">
         <img
           src="/images/doctalks.png"
@@ -15,13 +23,25 @@ const NavBar = () => {
       <div className="flex-none mr-10">
         <ul className="menu menu-horizontal px-1 gap-6">
           <li>
-            <Link to="/ChatBot">Chat with AI</Link>
+            <Link to="/chatbot">Chat with AI ✨</Link>
           </li>
-          <li>
-            <Link to="/signin" className="btn btn-sm btn-ghost">
-              Logout
-            </Link>
-          </li>
+          {Cookies.get("token") ? (
+            <>
+              <li key="logout">
+                <button type="button" onClick={handleLogOut}>
+                  Logout&#8594;
+                </button>
+              </li>        
+            </>
+          ) : (
+            <>
+              <li key="signin">
+                <button type="button" onClick={handleLogOut}>
+                  Sign In
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </div>

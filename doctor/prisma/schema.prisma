@@ -15,6 +15,7 @@ model Doctor {
   d_certificate    Bytes
   d_rating         Float          @default(0)
   d_specialization Specialization
+  balance          Float?         @default(0)
 
   Listing Listing[]
   Session Session[]
@@ -46,19 +47,21 @@ model Message {
 }
 
 model Listing {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   title        String
   price        Float
-  doctor_id    String @db.ObjectId
+  doctor_id    String   @db.ObjectId
   avg_duration Float
   description  String
+  time         DateTime
+  endtime      DateTime
 
   doctor Doctor @relation(fields: [doctor_id], references: [id])
 }
 
 model Session {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  tile      DateTime @default(now())
+  time      DateTime @default(now())
   user_id   String   @db.ObjectId
   doctor_id String   @db.ObjectId
 

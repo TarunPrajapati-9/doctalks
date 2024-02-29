@@ -30,7 +30,6 @@ const LoginPage = () => {
   });
   const { mutate, isPending } = trpc.login.useMutation();
   function onSubmit(data: FormSchema) {
-    console.log(data);
     mutate(data, {
       onSuccess(data) {
         if (data.success) {
