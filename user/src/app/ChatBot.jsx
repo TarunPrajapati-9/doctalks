@@ -19,7 +19,7 @@ const ChatBot = () => {
     if (input.trim() !== "") {
       setMessages([...messages, { text: input, sender: "user" }]);
       console.log("Input:", input);
-      mutate(input); // Call mutate only when the "Send" button is clicked
+      mutate(input);
       setInput("");
     }
   };
