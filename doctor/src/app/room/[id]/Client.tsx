@@ -1,6 +1,18 @@
 "use client";
 
-import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import AgoraRTC, {
+  LocalVideoTrack,
+  RemoteUser,
+  useJoin,
+  useLocalCameraTrack,
+  useLocalMicrophoneTrack,
+  usePublish,
+  useRTCClient,
+  useRemoteUsers,
+  useClientEvent,
+  AgoraRTCProvider,
+} from "agora-rtc-react";
+import { IMicrophoneAudioTrack, ICameraVideoTrack } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -10,44 +22,18 @@ type Props = {
 };
 
 const Client = ({ doctor_id, doctor_name, id }: Props) => {
-  const [mounted, setMounted] = useState(false);
-  const meet = async (element: any) => {
-    const appId = process.env.ZEGO_APP_ID ?? "";
-    const serviceSecret = process.env.ZEGO_SERVICE_SECRET ?? "";
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-      parseInt(appId),
-      serviceSecret,
-      id,
-      doctor_id,
-      doctor_name
-    );
+  const [joined, setJoined] = useState(false);
+  //   const agoraEngine = useRTCClient(
+  //     AgoraRTC.createClient({ codec: "vp8", mode: config.selectedProduct })
+  //   );
 
-    const zc = ZegoUIKitPrebuilt.create(kitToken);
-    if (zc) {
-      zc.joinRoom({
-        container: element,
-        scenario: {
-          mode: ZegoUIKitPrebuilt.GroupCall,
-        },
-        sharedLinks: [
-          {
-            name: "Copy link",
-            url: `http://localhost:3000/room/${id}`,
-          },
-        ],
-      });
-    }
-  };
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null;
-  return (
-    <div>
-      <div className="h-screen w-screen" ref={meet} />
-    </div>
-  );
+  return <div>{/* TODO */}</div>;
 };
 
 export default Client;
