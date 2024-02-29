@@ -11,7 +11,7 @@ const DocCard = () => {
         <img
           src="/images/github.png"
           alt="profile"
-          className="h-12 w-12 rounded-full "
+          className="h-12 w-12 rounded-full pointer-events-none"
         />
         <div className="flex w-full flex-col gap-0.5">
           <div className="flex items-center justify-between">
@@ -27,7 +27,7 @@ const DocCard = () => {
                   type="radio"
                   name="rating-1"
                   className="mask mask-star"
-                  checked
+                  defaultChecked
                 />
                 <input
                   type="radio"
