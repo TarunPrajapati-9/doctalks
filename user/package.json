@@ -10,18 +10,28 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.2.1",
     "@tanstack/react-query": "^5.24.1",
     "@tippyjs/react": "^4.2.6",
     "axios": "^1.6.7",
     "daisyui": "^4.7.2",
+<<<<<<< HEAD
+    "date-fns": "^3.3.1",
+=======
+>>>>>>> 42cbd37f256f4111ae5c49ebb3a7c31784d9422f
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-daisyui": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
     "react-hot-toast": "^2.4.1",
+<<<<<<< HEAD
+    "react-markdown": "^9.0.1",
+    "react-router-dom": "^6.22.1"
+=======
     "react-router-dom": "^6.22.1",
     "react-tailwindcss-datepicker": "^1.6.6"
+>>>>>>> 42cbd37f256f4111ae5c49ebb3a7c31784d9422f
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
