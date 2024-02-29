@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 const DocCard = () => {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/booking");
+  const handleClick = (path) => {
+    navigate(path);
   };
   return (
-    <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3 select-none">
+    <div className="inline-flex w-96 h-44  max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3 select-none">
       <div className="flex items-center gap-4 ml-4 mt-4 mr-4 mb-1">
         <img
           src="/images/github.png"
@@ -55,14 +55,27 @@ const DocCard = () => {
           <p className="block text-sm mb-1">Exp: 5 yr</p>
           <p className="block text-sm">Fees: 45₹</p>
         </div>
+        
+       
+      </div>
+      <div className="flex flex-row justify-center">
         <button
           type="submit"
-          className="btn btn-sm btn-outline btn-accent place-self-center"
-          onClick={handleClick}
+          className="btn btn-sm btn-outline btn-accent place-self-center mr-2"
+          onClick={() => { handleClick("/detail") }}
+        >
+          Abour doctor
+        </button>
+        <button
+          type="submit"
+          className="btn btn-sm btn-outline btn-accent place-self-center ml-2"
+          onClick={() => { handleClick("/booking") }}
         >
           Book
         </button>
       </div>
+
+     
     </div>
   );
 };

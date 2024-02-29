@@ -6,6 +6,25 @@ const HomePage = () => {
       <DocCard/>
       <DocCard/>
       <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
+      <DocCard/>
     </div>
   )
 }
