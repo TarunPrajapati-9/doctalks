@@ -25,21 +25,18 @@ const ChatBot = () => {
       <div className="flex-1 overflow-y-auto px-4 py-12">
         {messages.map((message, index) => (
           <div
-            key={index}
-            className={`mb-4 ${
-              message.sender === "user" ? "text-right" : "text-left"
+            className={`chat opacity-70 mb-3 ${
+              message.sender === "user" ? "chat-end" : "chat-start"
             }`}
+            key={index}
           >
-            <span className="inline-block bg-gray-300 rounded-lg p-2">
-              {message.text}
-            </span>
+            <div className="chat-bubble">{message.text}</div>
           </div>
         ))}
       </div>
       <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 px-4 py-2 flex items-center">
-        <input
-          type="text"
-          className="flex-1 border border-gray-400 rounded-md py-2 px-4 mr-2 focus:outline-none focus:ring focus:border-blue-300"
+        <textarea
+          className="max-h-40 min-h-12 flex-1 border border-gray-400 rounded-md py-2 px-4 mr-2 focus:outline-none focus:ring focus:border-blue-300"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {

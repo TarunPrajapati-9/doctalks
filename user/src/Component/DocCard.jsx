@@ -6,7 +6,7 @@ const DocCard = () => {
     navigate("/booking");
   };
   return (
-    <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3">
+    <div className="inline-flex w-96 max-w-xs bg-base-100 shadow-xl flex-col rounded-lg m-3 select-none">
       <div className="flex items-center gap-4 ml-4 mt-4 mr-4 mb-1">
         <img
           src="/images/github.png"
