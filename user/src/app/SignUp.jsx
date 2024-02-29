@@ -1,24 +1,30 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-// import { Toaster, toast } from "react-hot-toast";
-// import { useMutation } from "@tanstack/react-query";
-// import { signUp } from "../utils/dataPoster";
+import { toast } from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "../utils/dataPoster";
+import Cookies from "js-cookie";
 
 const SignUp = () => {
-  // const { mutate, isPending } = useMutation({
-  //   mutationFn: signUp,
-  //   onSuccess: (res) => {
-  //     if (res.detail.status) {
-  //       toast.success("Account Created Successfully!");
-  //       localStorage.setItem("participant_token", res.detail.token);
-  //       localStorage.setItem("participant_id", res.detail._id);
-  //       navigate("/");
-  //     }
-  //   },
-  //   onError: () => {
-  //     toast.error("Invalid Credentials");
-  //   },
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: signUp,
+    onSuccess: (res) => {
+      if (res) {
+        toast.success("Account Created Successfully!");
+        Cookies.set("token", res.token);
+        navigate("/");
+      } else {
+        toast.error("User Already Register!");
+      }
+    },
+    onError: (error) => {
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(`Error : ${error.response.data.error}`);
+      } else {
+        toast.error("Something went wrong!");
+      }
+    },
+  });
 
   const {
     register,
@@ -32,17 +38,16 @@ const SignUp = () => {
   const password = watch("u_password");
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // mutate({
-    //   u_name: data.u_name,
-    //   u_email: data.u_email,
-    //   u_password: data.u_password,
-    // });
+    mutate({
+      u_name: data.u_name,
+      u_email: data.u_email,
+      u_password: data.u_password,
+    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="h-screen w-screen overflow-hidden flex flex-col md:flex-row">
+      <div className="h-screen w-screen overflow-hidden flex flex-col md:flex-row select-none">
         {/* left image section */}
         <img
           src="/images/1.png"
@@ -69,7 +74,7 @@ const SignUp = () => {
                 type="text"
                 name="u_name"
                 placeholder="Enter your name"
-                // disabled={isPending}
+                disabled={isPending}
                 className={`input input-bordered w-full ${
                   errors.u_name ? "input-error" : ""
                 }`}
@@ -89,7 +94,7 @@ const SignUp = () => {
                 type="text"
                 name="u_email"
                 placeholder="Enter your email"
-                // disabled={isPending}
+                disabled={isPending}
                 className={`input input-bordered w-full ${
                   errors.u_email ? "input-error" : ""
                 }`}
@@ -115,7 +120,7 @@ const SignUp = () => {
                 type="password"
                 name="u_password"
                 placeholder="Enter your password"
-                // disabled={isPending}
+                disabled={isPending}
                 className={`input input-bordered w-full ${
                   errors.u_password ? "input-error" : ""
                 }`}
@@ -140,7 +145,7 @@ const SignUp = () => {
               <input
                 type="password"
                 name="cn_password"
-                // disabled={isPending}
+                disabled={isPending}
                 placeholder="Confirm your password"
                 className={`input input-bordered w-full ${
                   errors.cn_password ? "input-error" : ""
@@ -161,13 +166,13 @@ const SignUp = () => {
             <button
               type="submit"
               className="btn btn-primary w-full mt-2"
-              // disabled={isPending}
+              disabled={isPending}
             >
-              {/* {isPending ? (
+              {isPending ? (
                 <span className="loading loading-dots" />
               ) : (
                 "Create Account"
-              )} */}
+              )}
             </button>
             <button
               type="button"

@@ -1,44 +1,45 @@
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-// import { useMutation } from "@tanstack/react-query";
-// import { toast } from "react-hot-toast";
-
-// import { signIn } from "../utils/dataPoster";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "../utils/dataPoster";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  // const { mutate, isPending } = useMutation({
-  // mutationFn: signIn,
-  //   onSuccess: (res) => {
-  //     if (res.detail.status) {
-  //       toast.success("Login Successful");
-  //       localStorage.setItem("eventify_organizer_token", res.detail.token);
-  //       navigate("/");
-  //     } else {
-  //       toast.error("Invalid credentials");
-  //     }
-  //   },
-  //   onError: (err) => {
-  //     toast.error(`Error : ${err.message}`);
-  //   },
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: signIn,
+    onSuccess: (res) => {
+      if (res) {
+        toast.success("Login Successful!");
+        Cookies.set("token", res.token);
+        navigate("/");
+      } else {
+        toast.error("Invalid credentials");
+      }
+    },
+    onError: (error) => {
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(`Error: ${error.response.data.error}`);
+      } else {
+        toast.error("An error occurred while logging in.");
+      }
+    },
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    toast.success("Login Successful");
-    console.log(data);
-    // mutate({
-    //   u_email: data.u_email,
-    //   u_password: data.u_password,
-    // });
+    mutate({
+      u_email: data.u_email,
+      u_password: data.u_password,
+    });
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="h-screen w-screen overflow-hidden flex flex-col md:flex-row">
+      <div className="h-screen w-screen overflow-hidden flex flex-col md:flex-row select-none">
         {/* left image section */}
         <img
           src="/images/1.png"
@@ -73,7 +74,7 @@ const LoginPage = () => {
                     message: "Enter a Valid Email",
                   },
                 })}
-                // disabled={isPending}
+                disabled={isPending}
               />
               {errors.u_email && (
                 <div className="text-red-500 mx-2 my-1">
@@ -97,7 +98,7 @@ const LoginPage = () => {
                     message: "Password must be at least 8 characters",
                   },
                 })}
-                // disabled={isPending}
+                disabled={isPending}
               />
               {errors.u_password && (
                 <div className="text-red-500 mx-2 my-1">
@@ -106,11 +107,11 @@ const LoginPage = () => {
               )}
             </label>
             <button
-              // disabled={isPending}
+              disabled={isPending}
               type="submit"
               className="btn btn-primary w-full"
             >
-              {/* {isPending && <span className="loading loading-spinner" />} */}
+              {isPending && <span className="loading loading-spinner" />}
               Login
             </button>
             <button

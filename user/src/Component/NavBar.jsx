@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const NavBar = () => {
   let navigate = useNavigate();
 
   const handleLogOut = () => {
-    localStorage.clear();
-    navigate("/signIn");
+    Cookies.remove("token");
+    navigate("/signin");
   };
   return (
     <div className="navbar bg-[#B7EFC5] bg-opacity-35">
@@ -24,11 +25,19 @@ const NavBar = () => {
           <li>
             <Link to="/chatbot">Chat with AI ✨</Link>
           </li>
-          {localStorage.getItem("user_token") && (
+          {Cookies.get("token") ? (
             <>
               <li key="logout">
                 <button type="button" onClick={handleLogOut}>
                   Logout&#8594;
+                </button>
+              </li>        
+            </>
+          ) : (
+            <>
+              <li key="signin">
+                <button type="button" onClick={handleLogOut}>
+                  Sign In
                 </button>
               </li>
             </>
