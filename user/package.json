@@ -15,6 +15,10 @@
     "@tippyjs/react": "^4.2.6",
     "axios": "^1.6.7",
     "daisyui": "^4.7.2",
+<<<<<<< HEAD
+=======
+    "dayjs": "^1.11.10",
+>>>>>>> ad40c241e631576dc657cdd3f619400e0d16a74d
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-daisyui": "^5.0.0",

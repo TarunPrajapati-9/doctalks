@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import { Listing } from "@prisma/client";
-import { useMemo } from "react";
 import Markdown from "react-markdown";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   listing: Listing;
@@ -10,32 +11,43 @@ type Props = {
 
 const ListingCard = ({ listing }: Props) => {
   const isListingDisabled = useMemo(() => {
-    const startTime = new Date(listing.time);
-    const endTime = new Date(listing.endtime);
     const currentTime = new Date();
-    return (
-      startTime.getTime() - currentTime.getTime() <= 900000 &&
-      endTime.getTime() - currentTime.getTime() >= -300000
-    );
+    return !(currentTime >= listing.time && currentTime <= listing.endtime);
   }, [listing.endtime, listing.time]);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const disabled = useMemo(() => listing.time < new Date(), [listing.time]);
+  if (!mounted) return null;
   return (
     <div>
-      <div className="card w-96 bg-[#a8fea8] text-white shadow-xl">
+      <div
+        className={twMerge(
+          "card w-96 overflow-clip bg-[#a8fea8] text-white shadow-xl",
+          disabled && "opacity-50 cursor-not-allowed select-none"
+        )}
+      >
         <div className="card-body">
           <h2 className="card-title text-gray-600">{listing.title}</h2>
-          <p className="line-clamp-2 prose">
+          <p className="line-clamp-1 prose">
             <Markdown>{listing.description}</Markdown>
           </p>
           <div className="card-actions justify-end mt-4">
-            <button
-              disabled={isListingDisabled}
-              className="btn btn-info text-white"
-            >
-              Start session
-            </button>
-            <button className="btn">Edit</button>
-            <button className="btn btn-error text-white">Delete</button>
-            {/* button enables only when there is 15 minutes less time */}
+            {disabled ? (
+              <p className="text-red-500">Session has ended</p>
+            ) : (
+              <>
+                <button
+                  disabled={isListingDisabled}
+                  className="btn btn-info text-white"
+                >
+                  Start session
+                </button>
+                <button className="btn">Edit</button>
+                <button className="btn btn-error text-white">Delete</button>
+              </>
+            )}
           </div>
         </div>
       </div>
