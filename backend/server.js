@@ -1,7 +1,8 @@
-const express = require('express')
-const connectDB = require('./Config/dbConnection');
-const cors = require('cors');
-const dotenv = require('dotenv').config();
+import express from 'express';
+import connectDB from './Config/dbConnection.js';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import userrouter from "./Routes/userRoutes.js"
 
 const port = process.env.PORT || 3000;
 
@@ -13,8 +14,9 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello From Backend Server!')
+
 })
 
-app.use("/user", require("./Routes/userRoutes"));
+app.use("/user", userrouter);
 
-app.listen(port);
+app.listen(port, () => { console.log("server start at http://localhost:3000");});
