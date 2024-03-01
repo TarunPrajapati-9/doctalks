@@ -11,7 +11,7 @@ import VideoPlayer from "./VideoPlayer";
 
 const APP_ID = "942f3e5baf244ef3bec40da8091973b7";
 const APP_TOKEN =
-  "007eJxTYJg15UWIn5IY+6rENQ0fboRPvpXX+s9667OAR3Z+Utxn36gqMFiaGKUZp5omJaYZmZikphknpSabGKQkWhhYGlqaGyeZK+Q+TG0IZGSIatdgYWSAQBCfgyElP7kkMSe7mIEBAAWXIVw=";
+  "007eJxTYLBLTPBmj4/45b/k9YbzKlUVAR2rexWMP68Wu7xiMsORl8wKDJYmRmnGqaZJiWlGJiapacZJqckmBimJFgaWhpbmxknmNTMfpjYEMjLs9H3GyMgAgSA+B0NKfnJJYk52MQMDANHSIcw=";
 const channel = "doctalks";
 
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
