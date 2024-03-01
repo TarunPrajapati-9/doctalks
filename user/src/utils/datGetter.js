@@ -2,7 +2,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import health from "../Constant/healthConstant";
 import axios from "axios";
 
-
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 export async function run(params) {
@@ -28,7 +27,6 @@ function checkIfHealthRelated(prompt) {
     // List of health-related keywords
     const healthKeywords = health;
 
-
     // Convert the prompt to lowercase for case-insensitive matching
     const lowerCasePrompt = prompt.toLowerCase();
 
@@ -38,7 +36,6 @@ function checkIfHealthRelated(prompt) {
             return true;
         }
     }
-
     return false;
 }
 
