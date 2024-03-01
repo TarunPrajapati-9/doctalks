@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/actions/actions";
-import Client from "./Client";
+import Client from "./_components/Client";
 
 type Props = {
   params: { id: string };

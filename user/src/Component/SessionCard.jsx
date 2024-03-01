@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+// import UserStore from "../store/UserStore";
 import UserContext from "../Context/UserContext";
 
 export default function EventCard({ duration, title, price, doctorname }) {
