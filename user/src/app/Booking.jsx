@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
-import EventCard from "../Component/EventCard";
+import SessionCard from "../Component/SessionCard";
+import UserContext from "../Context/UserContext";
+import axios from "axios";
 
 const Booking = () => {
+
   const [value, setValue] = useState({
     startDate: null,
     endDate: null
@@ -11,6 +14,32 @@ const Booking = () => {
   const handleValueChange = (newValue) => {
     console.log("newValue:", newValue);
     setValue(newValue);
+  };
+
+  // const { SessionInfo } = UserStore();
+  const { openModal, sessionDetail } = useContext(UserContext);
+  const makePayment = async () => {
+    console.log("make payment ");
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    try {
+
+      const response = await axios.post('http://localhost:3000/user/create-checkout-session', {
+        ...sessionDetail
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      console.log(response);
+      window.location.href = response.data.url;
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -41,16 +70,38 @@ const Booking = () => {
           </div>
         </div>
 
-        
-        <div className="flex flex-row flex-wrap gap-10 border justify-center md:justify-start  ">
 
-          <EventCard></EventCard>
-          <EventCard></EventCard>
-          <EventCard></EventCard>
-          <EventCard></EventCard>
-          <EventCard></EventCard>
-          <EventCard></EventCard>
+        <div className="flex flex-row flex-wrap gap-10 border justify-center md:justify-start p-4 ">
+
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+
+
+
         </div>
+
+        {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Are you sure for purchasing this Session in 99!</h3>
+            <p className="py-4">After payment it is not refundable </p>
+            <div className="modal-action">
+              <form method="dialog" >
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn mr-2">No</button>
+                <button className="btn ml-2 " onClick={() => { openModal(); makePayment() }}>YEs</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
 
       </div>
     </>

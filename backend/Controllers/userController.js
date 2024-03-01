@@ -86,13 +86,31 @@ const loginUser = asyncHandler(async (req, res) => {
 
 //fetching all doctor 
 const listDoctors = async (req, res) => {
-
     try {
         const doctors = await Doctor.find();
+
+        const doctorsWithAvgPrice = [];
+
+        for (const doctor of doctors) {
+            const listings = await Listing.find({ doctor_id: doctor._id });
+            console.log(listings);
+            let totalPrice = 0;
+            for (const listing of listings) {
+                totalPrice += listing.price;
+            }
+            const averagePrice = listings.length > 0 ? totalPrice / listings.length : 0;
+
+            doctorsWithAvgPrice.push({
+                _id: doctor._id,
+                averagePrice: averagePrice.toFixed(2),
+                ...doctor._doc,
+            });
+        }
+
         res.status(200).json({
             success: true,
             message: 'Doctors fetched successfully',
-            data: doctors,
+            data: doctorsWithAvgPrice,
         });
     } catch (error) {
         console.error(error);
