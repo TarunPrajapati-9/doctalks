@@ -5,7 +5,6 @@ import {
 import health from "../Constant/healthConstant";
 import axios from "axios";
 
-
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 export async function run(params) {
@@ -76,7 +75,6 @@ function checkIfHealthRelated(prompt) {
     // List of health-related keywords
     const healthKeywords = health;
 
-
     // Convert the prompt to lowercase for case-insensitive matching
     const lowerCasePrompt = prompt.toLowerCase();
 
@@ -86,7 +84,6 @@ function checkIfHealthRelated(prompt) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -98,7 +95,7 @@ export async function getDoctors() {
 }
 
 export async function getOneDoctor(id) {
-    console.log(id);
+    // console.log(id);
     const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_URI}/user/getonedoctor/${id.id}`
     )

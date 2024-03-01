@@ -32,7 +32,6 @@ const registerUser = asyncHandler(async (req, res) => {
         u_password: hashedPassword
     });
 
-    console.log(`User created ${user}`);
     if (user) {
         // Create JWT token
         const token = jwt.sign(
@@ -93,7 +92,7 @@ const listDoctors = async (req, res) => {
 
         for (const doctor of doctors) {
             const listings = await Listing.find({ doctor_id: doctor._id });
-            console.log(listings);
+
             let totalPrice = 0;
             for (const listing of listings) {
                 totalPrice += listing.price;
@@ -113,7 +112,6 @@ const listDoctors = async (req, res) => {
             data: doctorsWithAvgPrice,
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             success: false,
             message: 'Error fetching doctors',
@@ -126,6 +124,14 @@ const listDoctors = async (req, res) => {
 const getOneDoctor = async (req, res) => {
 
     try {
+        const id = req.params.id;
+        const isValidObjectId = mongoose.isValidObjectId;
+        if (!id || !isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid doctor ID' });
+        }
+        if (!id) {
+            return res.status(404).json({ message: 'Doctor ID  found' });
+        }
         const doctor = await Doctor.findById(req.params.id);
         if (!doctor) {
             return res.status(404).json({ message: 'Doctor not found' });
@@ -133,43 +139,62 @@ const getOneDoctor = async (req, res) => {
         res.status(200).json(doctor);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server Error' });
+        // resolve later..
+        res.status(500).json({ message: 'not valid ID' });
     }
 }
 
 // --------------------------------------------------------------------------------------------------------------------------
-const listSessions = async (req, res) => {
-    console.log("listSessions");
+const listing = async (req, res) => {
     try {
+        const doctorID = req.params.id;
+        console.log(req.body);
+        const {date}= req.body;
 
-        const { doctorID, date } = req.body;
-
-        if (!doctorID || !date) {
-            return res.status(400).json({ message: "Missing required fields: doctorID and date" });
+        if (!doctorID) {
+            return res.status(400).json({ message: "Missing required fields: doctorID " });
         }
 
-        const formattedDate = new Date(date);
-        formattedDate.setHours(0, 0, 0, 0);
+        
+            if (Object.keys(req.body).length == 0 ||date==null ) {
+           
+                // req.body is empty
+                const query = {
+                    doctor_id: doctorID
+                };
 
-        const endOfDay = new Date(date);
-        endOfDay.setHours(23, 59, 59, 999);
+                const listings = await Listing.find(query);
+                if (listings.length > 0) {
+                    return res.json({ listings });
+                } else {
+                    return res.status(400).json({ message: "No sessions found for the given doctor and date" });
+                }
+            } else {
+                // req.body is not empty
+                // if id and date both given..
+                const formattedDate = new Date(date);
+                formattedDate.setHours(0, 0, 0, 0);
 
-        const query = {
-            doctor_id: doctorID,
-            time: { $gte: formattedDate, $lte: endOfDay },
-        };
+                const endOfDay = new Date(date);
+                endOfDay.setHours(23, 59, 59, 999);
 
-        const listings = await Listing.find(query);
+                const query = {
+                    doctor_id: doctorID,
+                    time: { $gte: formattedDate, $lte: endOfDay },
+                };
 
-        console.log(listings.length);
+                const listings = await Listing.find(query);
 
-        if (listings.length > 0) {
-            return res.json({ listings });
-        } else {
-            return res.status(404).json({ message: "No sessions found for the given doctor and date" });
-        }
+
+                if (listings.length > 0) {
+                    return res.json({ listings });
+                } else {
+                    return res.status(400).json({ message: "No sessions found for the given doctor and date" });
+                }
+            }
+
+
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
@@ -182,4 +207,4 @@ const listSessions = async (req, res) => {
 
 
 
-export { registerUser, loginUser, listDoctors, getOneDoctor, listSessions };
+export { registerUser, loginUser, listDoctors, getOneDoctor, listing };
