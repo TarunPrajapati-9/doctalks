@@ -4,27 +4,6 @@ const HomePage = () => {
   return (
     <div className="">
       <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
-      <DocCard/>
     </div>
   )
 }
