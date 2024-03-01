@@ -3,7 +3,6 @@ import {
   Route,
   Routes,
   useLocation,
-  useNavigate,
 } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./app/HomePage";
@@ -15,9 +14,8 @@ import Booking from "./app/Booking";
 import "./index.css";
 import ChatBot from "./app/ChatBot";
 import SignUp from "./app/SignUp";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import Doctordetail from "./app/Doctordetail";
 import Userdata from "./Context/UserData";
 
@@ -33,7 +31,7 @@ function App() {
   // };
   return (
     <Router>
-    {/* user data is context.. */}
+      {/* user data is context.. */}
       <Userdata>
         <QueryClientProvider client={queryClient}>
           <Toaster
