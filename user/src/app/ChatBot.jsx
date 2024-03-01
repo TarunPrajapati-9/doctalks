@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
 import { run } from "../utils/datGetter";
+import { categories } from "../utils/category";
 
 const ChatBot = () => {
   // State variables for messages, user input, and loading state
@@ -23,18 +24,27 @@ const ChatBot = () => {
       setInput("");
     }
   };
-
   return (
     <div className="flex flex-col">
       {/* Header section */}
-      <div className="text-center py-4">
-        <h1 className="text-2xl font-bold mb-2">
-          Welcome to DoctorTalks AI Bot!
-        </h1>
-        <p className="text-gray-600">
-          Hi there! I&apos;m DoctorTalks, your AI assistant. How can I assist
-          you today?
-        </p>
+      <div className="flex flex-row justify-center py-4 ">
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-bold mb-2">
+            Welcome to DoctorTalks AI Bot!
+          </h1>
+          <p className="text-gray-600">
+            Hi there! I&apos;m DoctorTalks, your AI assistant. How can I assist
+            you today?
+          </p>
+        </div>
+        <select className="select select-bordered select-sm w-56 max-w-xs absolute float-right right-0 mr-2 mt-2">
+          <option disabled selected>
+            Select Category
+          </option>
+          {categories.map((category, index) => (
+            <option key={index}>{category}</option>
+          ))}
+        </select>
       </div>
 
       {/* Message display section */}
