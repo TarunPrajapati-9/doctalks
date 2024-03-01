@@ -15,7 +15,7 @@ const channel = "doctalks";
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 const VideoRoom = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [localTracks, setLocalTracks] =
     useState<[IMicrophoneAudioTrack, ICameraVideoTrack]>();
   async function handleUserJoined(
@@ -27,7 +27,7 @@ const VideoRoom = () => {
       setUsers((prev) => [...prev, user]);
     }
     if (mediaType === "audio") {
-      // user.audioTrack?.play();
+      user.audioTrack?.play();
     }
   }
   function handleUserLeft(users: IAgoraRTCRemoteUser) {
@@ -45,7 +45,10 @@ const VideoRoom = () => {
         .then(([tracks, uid]) => {
           setLocalTracks(tracks);
           const [audioTrack, videoTrack] = tracks;
-          setUsers((prev) => [...prev, { uid, videoTrack, audioTrack }]);
+          setUsers((prev) => [
+            ...prev,
+            { uid, videoTrack, audioTrack, hasAudio: true, hasVideo: true },
+          ]);
           client.publish(tracks);
         });
     }
