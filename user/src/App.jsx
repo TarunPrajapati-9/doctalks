@@ -3,6 +3,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./app/HomePage";
@@ -14,13 +15,21 @@ import Booking from "./app/Booking";
 import "./index.css";
 import ChatBot from "./app/ChatBot";
 import SignUp from "./app/SignUp";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import Doctordetail from "./app/Doctordetail";
-
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
+  // const navigate = useNavigate();
+  // const isUserAuthenticated = () => {
+  //   const token = Cookies.get("token");
+  //   toast.error("Please login to continue");
+
+  //   navigate("/signin");
+  //   return !!token;
+  // };
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
