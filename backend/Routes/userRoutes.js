@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { registerUser, loginUser, listDoctors, getOneDoctor,listSessions } from '../Controllers/userController.js';
+import { registerUser, loginUser, listDoctors, getOneDoctor, listing } from '../Controllers/userController.js';
 import { checkout } from '../Controllers/checkoutStripe.js';
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.post('/login', loginUser);
 router.get('/listdoctors', listDoctors);
 router.get('/getonedoctor/:id', getOneDoctor);
 
-router.get('/listsessions', listSessions);
+router.post('/listing/:id', listing);
 
 
 router.post('/create-checkout-session', checkout);
