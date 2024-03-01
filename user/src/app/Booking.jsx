@@ -5,7 +5,7 @@ import UserContext from "../Context/UserContext";
 import axios from "axios";
 
 const Booking = () => {
- 
+
   const [value, setValue] = useState({
     startDate: null,
     endDate: null
@@ -19,51 +19,33 @@ const Booking = () => {
   // const { SessionInfo } = UserStore();
   const { openModal, sessionDetail } = useContext(UserContext);
   const makePayment = async () => {
-
-
     console.log("make payment ");
     const headers = {
       "Content-Type": "application/json"
     };
 
-
-
-
-
-
     try {
 
-      // createa axios post request to create a checkout session
-      // axios.post("http://localhost:3000/user/create-checkout-session", body, { headers: headers });axios.post(url, body, { headers: headers }) 
       const response = await axios.post('http://localhost:3000/user/create-checkout-session', {
         ...sessionDetail
       }, {
-        headers: headers
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
 
-
-
-
       console.log(response);
-      // navigate(response.data.url);
       window.location.href = response.data.url;
-      // get url form seesion response and redirect to tat page
 
-
-      // console.log(session);
     } catch (error) {
       console.log(error);
     }
   }
 
-
-
   return (
     <>
       <div className="flex flex-col   items-center md:items-start">
         <div className="flex flex-row m-4">
-
-
           <div className="flex flex-col items-center justify-center gap-5 mt-6 md:flex-row">
             <div className="flex flex-row gap-8">
               <a
