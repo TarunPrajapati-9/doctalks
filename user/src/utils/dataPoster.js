@@ -11,3 +11,9 @@ export async function signIn(params) {
     // console.log(data);
     return data;
 }
+export async function listing(params) {
+
+    // console.log(params);
+    const { data } = await axios.post(`http://localhost:3000/user/listing/${params.doctorID}`, params)
+    return data;
+}

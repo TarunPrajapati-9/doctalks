@@ -6,9 +6,7 @@ import Loader from "./Loader";
 
 const DocCard = () => {
   const navigate = useNavigate();
-  const handleClick = (id) => {
-    navigate(`/detail/${id}`);
-  };
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["doctors"],
     queryFn: getDoctors,
@@ -64,7 +62,7 @@ const DocCard = () => {
               type="submit"
               className="btn btn-sm btn-outline btn-accent place-self-center mr-2"
               onClick={() => {
-                handleClick(`${doctor._id}`);
+                navigate(`/detail/${doctor._id}`);
               }}
             >
               About doctor
@@ -73,7 +71,7 @@ const DocCard = () => {
               type="submit"
               className="btn btn-sm btn-outline btn-accent place-self-center ml-2"
               onClick={() => {
-                handleClick(`${doctor._id}`);
+                navigate(`/booking/${doctor._id}`);
               }}
             >
               Book

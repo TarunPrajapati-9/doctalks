@@ -1,46 +1,97 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import SessionCard from "../Component/SessionCard";
 import UserContext from "../Context/UserContext";
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { listing } from "../utils/dataPoster";
+import { useParams } from "react-router-dom";
 
 const Booking = () => {
 
-  const [value, setValue] = useState({
+  const [date, setdate] = useState({
     startDate: null,
     endDate: null
   });
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
+    setdate(newValue);
+    mutate({ doctorID: docId, date: newValue.startDate });
+    // console.log(error.response.data.message);
   };
 
-  // const { SessionInfo } = UserStore();
-  const { openModal, sessionDetail } = useContext(UserContext);
-  const makePayment = async () => {
-    console.log("make payment ");
-    const headers = {
-      "Content-Type": "application/json"
-    };
+  // 
+  const { docId } = useParams();
 
-    try {
+  const { mutate, data, isPending, isError, error } = useMutation({
+    mutationFn: listing,
+  });
 
-      const response = await axios.post('http://localhost:3000/user/create-checkout-session', {
-        ...sessionDetail
-      }, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
+  const [hasLoaded, setHasLoaded] = useState(false);
 
-      console.log(response);
-      window.location.href = response.data.url;
 
-    } catch (error) {
-      console.log(error);
+
+  useEffect(() => {
+
+    if (!hasLoaded) {
+      mutate({ doctorID: docId });
+      setHasLoaded(true);
     }
+
+  });
+
+
+
+  const getTodayListing = (event) => {
+    event.preventDefault(); // Pr
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate()); // Incrementing current date by 1 to get tomorrow's date
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
+    mutate({ doctorID: docId, date: formattedDate });
+    // console.log(error.response.data.message);
+
   }
+  const getTommmorowListing = (event) => {
+    event.preventDefault(); // Pr
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1); // Incrementing current date by 1 to get tomorrow's date
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    mutate({ doctorID: docId, date: formattedDate });
+  }
+
+
+
+  // const { SessionInfo } = UserStore();
+  const { openModal } = useContext(UserContext);
+  // const makePayment = async () => {
+  //   console.log("make payment ");
+  //   const headers = {
+  //     "Content-Type": "application/json"
+  //   };
+
+  //   try {
+
+  //     const response = await axios.post('http://localhost:3000/user/create-checkout-session', {
+  //       ...sessionDetail
+  //     }, {
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       }
+  //     })
+
+  //     console.log(response);
+  //     window.location.href = response.data.url;
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <>
@@ -48,21 +99,30 @@ const Booking = () => {
         <div className="flex flex-row m-4">
           <div className="flex flex-col items-center justify-center gap-5 mt-6 md:flex-row">
             <div className="flex flex-row gap-8">
-              <a
-                className="inline-block w-auto min-w-[150px] px-6 py-4 text-white transition-all rounded-md shadow-xl sm:w-auto bg-gradient-to-r from-indigo-500 to-indigo-400 hover:bg-gradient-to-b   hover:shadow-2xl hover:shadow-indigo-400 hover:-translate-y-px "
-                href="">Today
-              </a>
-              <a
-                className="inline-block w-auto min-w-[150px] px-6 py-4 text-white transition-all rounded-md shadow-xl sm:w-auto bg-gradient-to-r from-indigo-500 to-indigo-400 hover:bg-gradient-to-b   hover:shadow-2xl hover:shadow-indigo-400 hover:-translate-y-px "
-                href="">Tomorrow
-              </a>
+              <div>
+                <button onClick={
+                  getTodayListing}>
+                  <a
+                    className="inline-block w-auto min-w-[150px] px-6 py-4 text-white transition-all rounded-md shadow-xl sm:w-auto bg-gradient-to-r from-indigo-500 to-indigo-400 hover:bg-gradient-to-b   hover:shadow-2xl hover:shadow-indigo-400 hover:-translate-y-px "
+                    href="">Today
+                  </a>
+                </button>
+              </div>
+
+              <div role="button" onClick={
+                getTommmorowListing}>
+                <a
+                  className="inline-block w-auto min-w-[150px] px-6 py-4 text-white transition-all rounded-md shadow-xl sm:w-auto bg-gradient-to-r from-indigo-500 to-indigo-400 hover:bg-gradient-to-b   hover:shadow-2xl hover:shadow-indigo-400 hover:-translate-y-px "
+                  href="">Tomorrow
+                </a>
+              </div>
 
             </div>
             <Datepicker
               primaryColor={"while"}
               useRange={false}
               asSingle={true}
-              value={value}
+              value={date}
               onChange={handleValueChange}
               style={{ color: 'black', backgroundColor: 'white' }}
             />
@@ -73,15 +133,18 @@ const Booking = () => {
 
         <div className="flex flex-row flex-wrap gap-10 border justify-center md:justify-start p-4 ">
 
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
-          <SessionCard title={"cold session"} price={"99rs"} duration={" 1 Am to 2 Am  22/3/2024"} doctorname={"milanbhai"}></SessionCard>
+          {isError && <div>{error.response.data.message}</div>}
+
+
+          {(data?.listings && (data?.listings ?? []).length > 0) && data?.listings.map((listing) => (
+            <SessionCard
+              key={listing._id} // Using _id as the key for each SessionCard
+              title={listing.title}
+              price={listing.price + "rs"} // Concatenate "rs" to the price
+              duration={`${listing.avg_duration} minutes`} // Assuming avg_duration is in minutes
+              doctorname={listing.doctor_id} // You might need to fetch the doctor name from another source based on the doctor_id
+            />
+          ))}
 
 
 
@@ -97,7 +160,8 @@ const Booking = () => {
               <form method="dialog" >
                 {/* if there is a button in form, it will close the modal */}
                 <button className="btn mr-2">No</button>
-                <button className="btn ml-2 " onClick={() => { openModal(); makePayment() }}>YEs</button>
+                {/* <button className="btn ml-2 " onClick={() => { openModal(); makePayment() }}>YEs</button> */}
+                <button className="btn ml-2 " onClick={() => { openModal(); }}>YEs</button>
               </form>
             </div>
           </div>
@@ -109,3 +173,6 @@ const Booking = () => {
 };
 
 export default Booking;
+
+
+
