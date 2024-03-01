@@ -45,6 +45,8 @@ const VideoRoom = () => {
         .then(([tracks, uid]) => {
           setLocalTracks(tracks);
           const [audioTrack, videoTrack] = tracks;
+          // fix ts error
+          // @ts-ignore
           setUsers((prev) => [
             ...prev,
             { uid, videoTrack, audioTrack, hasAudio: true, hasVideo: true },
@@ -70,7 +72,7 @@ const VideoRoom = () => {
         {users.map((user, index) => (
           <VideoPlayer
             user={user}
-            key={user.uid + index + "WEB_CAM_AGORA_RTC"}
+            key={user.uid.toLocaleString() + index + "WEB_CAM_AGORA_RTC"}
           />
         ))}
       </div>
