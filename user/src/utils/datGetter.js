@@ -42,19 +42,16 @@ function checkIfHealthRelated(prompt) {
     return false;
 }
 
-export async function getDoctors(){
-    const {data} = await axios.get(
+export async function getDoctors() {
+    const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_URI}/user/listdoctors`
     )
-
-    console.log(data);
-   
-    return data.data; 
+    return data.data;
 }
 
 export async function getOneDoctor(id) {
     // console.log(id);
-    const {data} = await axios.get(
+    const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_URI}/user/getonedoctor/${id.id}`
     )
     return data;

@@ -25,9 +25,7 @@ export default function Doctordetail() {
     // navigate("/signIn");
   }
 
-  const handleRegisterClick = () => {
-    // navigate(`/${docId}`);
-  };
+
   return (
     <>
       <div className=" my-10 mx-5">

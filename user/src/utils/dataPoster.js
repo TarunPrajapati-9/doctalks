@@ -14,6 +14,6 @@ export async function signIn(params) {
 export async function listing(params) {
 
     // console.log(params);
-    const { data } = await axios.post(`http://localhost:3000/user/listing/${params.doctorID}`, params)
+    const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URI}/user/listing/${params.doctorID}`, params)
     return data;
 }
