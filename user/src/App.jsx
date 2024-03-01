@@ -17,22 +17,26 @@ import SignUp from "./app/SignUp";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Doctordetail from "./app/Doctordetail";
+import Userdata from "./Context/UserData";
 
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <Router>
-      <QueryClientProvider client={queryClient}>
-        <Toaster
-          containerStyle={{
-            position: "relative",
-            width: "100%",
-          }}
-          reverseOrder={false}
-        />
-        <AppContent />
-      </QueryClientProvider>
+    {/* user data is context.. */}
+      <Userdata>
+        <QueryClientProvider client={queryClient}>
+          <Toaster
+            containerStyle={{
+              position: "relative",
+              width: "100%",
+            }}
+            reverseOrder={false}
+          />
+          <AppContent />
+        </QueryClientProvider>
+      </Userdata>
     </Router>
   );
 }
