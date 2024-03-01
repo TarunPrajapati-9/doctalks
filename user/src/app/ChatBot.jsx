@@ -52,16 +52,6 @@ const ChatBot = () => {
             <option key={index}>{category}</option>
           ))}
         </select>
-        <div className="text-center py-4">
-          <h1 className="text-2xl font-bold mb-2">
-            Welcome to DoctorTalks AI Bot!
-          </h1>
-          <p className="text-gray-600">
-            Hi there! I&apos;m DoctorTalks, your AI assistant. How can I assist
-            you today?
-          </p>
-        </div>
-
         <div
           className="flex-1 overflow-y-auto px-4 py-12"
           style={{ maxHeight: "calc(100vh - 200px)" }}
