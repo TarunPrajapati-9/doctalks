@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import health from "../Constant/healthConstant";
+import axios from "axios";
 
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
@@ -39,4 +40,19 @@ function checkIfHealthRelated(prompt) {
     }
 
     return false;
+}
+
+export async function getDoctors(){
+    const {data} = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URI}/user/listdoctors`
+    )
+    return data.data; 
+}
+
+export async function getOneDoctor(id) {
+    console.log(id);
+    const {data} = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URI}/user/getonedoctor/${id.id}`
+    )
+    return data;
 }
