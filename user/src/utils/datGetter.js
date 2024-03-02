@@ -51,24 +51,18 @@ export async function run(params) {
             },
         ],
     });
-
-    const result = await chat.sendMessage(prompt);
-    const response = await result.response;
-    const text = response.text();
-    console.log(text);
-    return text;
     // Check if the prompt contains health-related keywords
-    // const isHealthRelated = checkIfHealthRelated(prompt);
-    // if (isHealthRelated) {
-    //     // const result = await model.generateContent(prompt);
-    //     const result = await chat.sendMessage(prompt);
-    //     const response = await result.response;
-    //     const text = response.text();
-    //     console.log(text);
-    //     return text;
-    // } else {
-    //     return "Sorry, as a DoctorTalks ChatBot, I cannot answer this.";
-    // }
+    const isHealthRelated = checkIfHealthRelated(prompt);
+    if (isHealthRelated) {
+        // const result = await model.generateContent(prompt);
+        const result = await chat.sendMessage(prompt);
+        const response = await result.response;
+        const text = response.text();
+        console.log(text);
+        return text;
+    } else {
+        return "Sorry, as a DoctorTalks ChatBot, I cannot answer this.";
+    }
 }
 
 function checkIfHealthRelated(prompt) {
