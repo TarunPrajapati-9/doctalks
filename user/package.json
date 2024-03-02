@@ -16,7 +16,7 @@
     "axios": "^1.6.7",
     "clsx": "^2.1.0",
     "daisyui": "^4.7.2",
-    "dayjs": "^1.11.10",  
+    "dayjs": "^1.11.10",
     "framer-motion": "^11.0.8",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
@@ -27,10 +27,12 @@
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.22.1",
     "react-tailwindcss-datepicker": "^1.6.6",
+    "remark-gfm": "^4.0.0",
     "tailwind-merge": "^2.2.1",
     "zustand": "^4.5.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react-swc": "^3.5.0",
